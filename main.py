@@ -64,6 +64,21 @@ class reportApp(MDApp):
             width=300,
             hint_text="Enter urgency level (Low, Medium, High): "
         )
+        
+        # MDTextField status update
+        self.statusUpdate_input = MDTextField(
+            pos_hint={'center_x': 0.5, 'center_y': 0.3},
+            size_hint_x=None,
+            width=300,
+            hint_text="Enter the reportID of the incident:"
+        )
+        # MDTextField choice 2 update
+        self.choice2_input = MDTextField(
+            pos_hint={'center_x': 0.5, 'center_y': 0.2},
+            size_hint_x=None,
+            width=500,
+            hint_text="Enter the new status: [1]Preparing to deploy [2]On the Process [3]Resolved: "
+        )
 
         # MDTextField title add
         self.screen.add_widget(self.title_input)
@@ -75,14 +90,26 @@ class reportApp(MDApp):
         self.screen.add_widget(self.details_input)
         # MDTextField urgency add
         self.screen.add_widget(self.urgency_input)
+        # MDTextField status update add
+        self.screen.add_widget(self.statusUpdate_input)
+        # MDTextField choice2 add
+        self.screen.add_widget(self.choice2_input)
 
         # Create and add the submit button
-        button = MDRectangleFlatButton(
+        button1 = MDRectangleFlatButton(
             text='Submit', 
             pos_hint={'center_x': 0.5, 'center_y': 0.4},
             on_release=self.submit_data
         )
-        self.screen.add_widget(button)
+        
+        # Create and add the submit button
+        button2 = MDRectangleFlatButton(
+            text='Update Status', 
+            pos_hint={'center_x': 0.5, 'center_y': 0.1},
+            on_release=self.status_update
+        )
+        self.screen.add_widget(button1)
+        self.screen.add_widget(button2)
 
         return self.screen
 
@@ -137,6 +164,32 @@ class reportApp(MDApp):
         cursor.execute("INSERT INTO statusUpdate (reportID, title, status) VALUES (%s, %s, %s)",
                 (reportID, self.title, status))
 
+        db.commit()
+        
+    def status_update(self, obj):
+        def status1():
+            return "Preparing to deploy"
+        
+        def status2():
+            return "On the Process"
+        
+        def status3():
+            return "Resolved"
+        
+        
+        pre_defined_status ={
+            1: status1,
+            2: status2,
+            3: status3,
+        }
+        self.choice2 = self.choice2_input.text
+        newStatus = pre_defined_status[int(self.choice2)]()
+        reportId_text = self.statusUpdate_input.text
+        
+        # Update the status for the specific reportId using a WHERE clause
+        cursor.execute("UPDATE report SET status=%s WHERE reportId=%s", (newStatus, reportId_text))
+
+        # Commit the changes to the database
         db.commit()
 reportApp().run()
 
