@@ -16,7 +16,7 @@ KV = '''
     orientation: "vertical"
     spacing: "12dp"
     size_hint_y: None
-    height: "200dp"
+    height: "100dp"
 
     MDTextField:
         id: status_field
@@ -75,7 +75,7 @@ class ListApp(MDApp):
         self.dialog = MDDialog(title="Update Status",
                                type="custom",
                                content_cls=DialogContent(),  # Use custom content class
-                               size_hint=(0.7, 1),
+                               size_hint=(0.7, 0),
                                buttons=[
                                    MDFlatButton(
                                        text="Submit",

@@ -1,15 +1,31 @@
 from kivy.lang import Builder
+from kivy.uix.boxlayout import BoxLayout
 from kivymd.app import MDApp
 from kivymd.uix.menu import MDDropdownMenu
 from kivymd.uix.button import MDFlatButton
+from kivymd.uix.dialog import MDDialog
 
 KV = '''
+<DialogContent>:
+    orientation: "vertical"
+    spacing: "12dp"
+    size_hint_y: None
+    height: "120dp"
+
+    MDFlatButton:
+        id: dropdown_button
+        text: 'Choose Incident Type'
+        on_release: app.show_incident_type_dropdown(root)
+
 Screen:
     MDFlatButton:
-        id: button
-        text: 'Open Menu'
-        on_release: app.show_incident_type_dropdown(button)
+        text: 'Open Dialog'
+        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+        on_release: app.open_dialog()
 '''
+
+class DialogContent(BoxLayout):
+    pass
 
 class DropDownHandler:
     def show_custom_dropdown(self, caller, items):
@@ -19,7 +35,7 @@ class DropDownHandler:
         self.dropdown_menu = MDDropdownMenu(
             caller=caller,
             items=menu_items,
-            position="bottom",
+            position="center",
             width_mult=4,
         )
         self.dropdown_menu.open()
@@ -27,7 +43,6 @@ class DropDownHandler:
     def menu_callback(self, text_item, caller):
         caller.text = text_item
         self.dropdown_menu.dismiss()
-        caller.focus = False
 
 class MyApp(MDApp):
     def build(self):
@@ -37,5 +52,22 @@ class MyApp(MDApp):
         incident_type = ["Medical Emergency", "Natural Disaster", "Security Threat", "Others"]
         dropdown_handler = DropDownHandler()
         dropdown_handler.show_custom_dropdown(caller, incident_type)
+
+    def open_dialog(self):
+        self.dialog = MDDialog(
+            title="Select Incident Type",
+            type="custom",
+            content_cls=DialogContent(),
+            buttons=[
+                MDFlatButton(
+                    text="CANCEL", 
+                    on_release=self.close_dialog
+                )
+            ]
+        )
+        self.dialog.open()
+
+    def close_dialog(self, *args):
+        self.dialog.dismiss()
 
 MyApp().run()
