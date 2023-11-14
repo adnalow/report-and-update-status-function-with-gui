@@ -16,14 +16,13 @@ KV = '''
     orientation: "vertical"
     spacing: "12dp"
     size_hint_y: None
-    height: "100dp"
+    height: "120dp"
 
     MDTextField:
         id: status_field
-        pos_hint: {'center_x': 0.5, 'center_y': 0.8}
-        size_hint_x: None
-        width: 300
-        hint_text: "Enter the new status: [1] Preparing to deploy [2] On the Process [3] Resolved"
+        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+        size_hint_x: 0.8
+        hint_text: "Enter new status: [1] Preparing to deploy [2] On the Process [3] Resolved"
 '''
 
 # Custom content class for the dialog
@@ -40,7 +39,7 @@ db = mysql.connector.connect(
     user = "root",
     password = "incidentreportingapp",
     database = "reportingApp"
-    )
+)
 
 cursor = db.cursor()
 
@@ -75,7 +74,8 @@ class ListApp(MDApp):
         self.dialog = MDDialog(title="Update Status",
                                type="custom",
                                content_cls=DialogContent(),  # Use custom content class
-                               size_hint=(0.7, 0),
+                               size_hint=(0.8, None),
+                               auto_dismiss=False,  # Prevents the dialog from dismissing when clicking outside
                                buttons=[
                                    MDFlatButton(
                                        text="Submit",

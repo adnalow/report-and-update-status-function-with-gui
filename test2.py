@@ -10,7 +10,7 @@ KV = '''
     orientation: "vertical"
     spacing: "12dp"
     size_hint_y: None
-    height: "120dp"
+    height: "50dp"
 
     MDFlatButton:
         id: dropdown_button
