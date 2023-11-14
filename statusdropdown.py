@@ -77,6 +77,7 @@ class ListApp(MDApp):
             )
             self.list_view.add_widget(item)
 
+    # displaying the reports
     def open_dialog(self, row):
         self.selected_report_id = row[0]  # Store the selected ReportId
         self.dialog_content = DialogContent()
