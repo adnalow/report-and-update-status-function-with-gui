@@ -9,7 +9,7 @@ BoxLayout:
     orientation: 'vertical'
     MDRaisedButton:
         id: button
-        text: "Report Incident"
+        text: "Select Status"
         pos_hint: {"center_x": 0.5, "center_y": 0.5}
         on_release: app.menu_callback()
 '''
@@ -24,10 +24,9 @@ class MainApp(MDApp):
     def on_start(self):
         # Menu items list
         menu_items = [
-            {"viewclass": "OneLineListItem", "text": "Medical Emergency"},
-            {"viewclass": "OneLineListItem", "text": "Natural Disaster"},
-            {"viewclass": "OneLineListItem", "text": "Security Threat"},
-            {"viewclass": "OneLineListItem", "text": "Others"}
+            {"viewclass": "OneLineListItem", "text": "Preparing to deploy"},
+            {"viewclass": "OneLineListItem", "text": "On the Process"},
+            {"viewclass": "OneLineListItem", "text": "Resolved"}
         ]
         
         # Create the dropdown menu
