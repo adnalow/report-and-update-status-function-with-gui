@@ -75,7 +75,6 @@ class ListApp(MDApp):
                                type="custom",
                                content_cls=DialogContent(),  # Use custom content class
                                size_hint=(0.8, None),
-                               auto_dismiss=False,  # Prevents the dialog from dismissing when clicking outside
                                buttons=[
                                    MDFlatButton(
                                        text="Submit",
