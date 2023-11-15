@@ -1,0 +1,43 @@
+
+Screen:
+    MDTextField:
+        id: title
+        pos_hint: {'center_x': 0.5, 'center_y': 0.9}
+        size_hint_x: None
+        width: 300
+        hint_text: "Enter Title"
+
+    MDTextField:
+        id: choice
+        pos_hint: {'center_x': 0.5, 'center_y': 0.8}
+        size_hint_x: None
+        width: 500
+        hint_text: "Choose from any of the following"
+        on_focus: if self.focus: app.show_incident_type_dropdown(self) 
+
+    MDTextField:
+        id: image_path
+        pos_hint: {'center_x': 0.5, 'center_y': 0.7}
+        size_hint_x: None
+        width: 300
+        hint_text: "Enter image path: "
+
+    MDTextField:
+        id: details
+        pos_hint: {'center_x': 0.5, 'center_y': 0.6}
+        size_hint_x: None
+        width: 300
+        hint_text: "Enter details:"
+
+    MDTextField:
+        id: urgency
+        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+        size_hint_x: None
+        width: 300
+        hint_text: "select urgency level"
+        on_focus: if self.focus: app.show_urgency_dropdown(self)  
+
+    MDRectangleFlatButton:
+        text: 'Submit'
+        pos_hint: {'center_x': 0.5, 'center_y': 0.4}
+        on_release: app.submit_data()
