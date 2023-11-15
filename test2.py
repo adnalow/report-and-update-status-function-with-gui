@@ -4,6 +4,8 @@ from kivymd.app import MDApp
 from kivymd.uix.screen import Screen
 from kivymd.uix.button import MDRectangleFlatButton
 from kivymd.uix.textfield import MDTextField
+import datetime
+
 
 
 host = "112.198.173.169"
@@ -132,10 +134,13 @@ class reportApp(MDApp):
         print("Title:", self.urgency)
         #status
         status = "pending"
+        date_created = datetime.datetime.now().strftime("%Y-%m-%d")
 
         # Insert user input into the database
-        cursor.execute("INSERT INTO report (reportID, title, checklist, image_path, details, urgency, status) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-                (reportID, self.title, self.checklist, self.imagePath, self.details, self.urgency, status))
+        cursor.execute("INSERT INTO report (reportID, title, checklist, image_path, details, urgency, status, dateCreated) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+                    (reportID, self.title, self.checklist, self.imagePath, self.details, self.urgency, status, date_created))
+
+
         
         cursor.execute("INSERT INTO statusUpdate (reportID, title, status) VALUES (%s, %s, %s)",
                 (reportID, self.title, status))

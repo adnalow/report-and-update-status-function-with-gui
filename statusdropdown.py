@@ -74,6 +74,13 @@ KV = '''
                 halign: "center"  # Align text within the label
                 size_hint_y: None
                 height: self.texture_size[1]
+                
+            MDLabel:
+                id: dateCreated
+                text: "label text"
+                halign: "center"  # Align text within the label
+                size_hint_y: None
+                height: self.texture_size[1]
             
     BoxLayout:
         orientation: 'vertical'
@@ -139,7 +146,7 @@ class ListApp(MDApp):
         self.selected_report_id = row[0]  # Store the selected ReportId
 
         # Fetch data for the selected report
-        cursor.execute("SELECT Title, Checklist, image_Path, Details, Urgency, Status FROM report WHERE ReportId = %s", (self.selected_report_id,))
+        cursor.execute("SELECT Title, Checklist, image_Path, Details, Urgency, Status, dateCreated FROM report WHERE ReportId = %s", (self.selected_report_id,))
         data = cursor.fetchone()
 
         # Create dialog content
@@ -153,6 +160,11 @@ class ListApp(MDApp):
             self.dialog_content.ids.details.text = "Details: " + str(data[3])
             self.dialog_content.ids.urgency.text = "Urgency: " + str(data[4])
             self.dialog_content.ids.status.text = "Status: " + str(data[5])
+            if data[6] is None or data[6] == '':
+                self.dialog_content.ids.dateCreated.text = "Date: Unknown"
+            else:
+                self.dialog_content.ids.dateCreated.text = "Date: " + str(data[6])
+
 
         self.dialog = MDDialog(title="Update Status",
                                type="custom",
