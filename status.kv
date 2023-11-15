@@ -1,0 +1,77 @@
+<DialogContent>:
+    orientation: "vertical"
+    size_hint_y: None
+    height: "400dp"
+
+    ScrollView:
+        size_hint_y: None
+        height: 400  # Adjust based on your dialog box size
+
+        GridLayout:
+            cols: 1
+            size_hint_y: None
+            size_hint_x: 1  # Take full width of the ScrollView
+            height: self.minimum_height
+            spacing: "30dp"
+            padding: [30, 60, 30, 30]  # Padding: [left, top, right, bottom]
+            pos_hint: {'center_x': 0.5, 'top': 50}  # Adjust pos_hint as needed
+
+            MDLabel:
+                id: title
+                text: "label text"
+                halign: "center"  # Align text within the label
+                size_hint_y: (1)
+                height: self.texture_size[1]
+                
+            MDLabel:
+                id: checklist
+                text: "label text"
+                halign: "center"  # Align text within the label
+                size_hint_y: None
+                height: self.texture_size[1]
+            
+            MDLabel:
+                id: image_path
+                text: "label text"
+                halign: "center"  # Align text within the label
+                size_hint_y: None
+                height: self.texture_size[1]
+                
+            MDLabel:
+                id: details
+                text: "label text"
+                halign: "center"  # Align text within the label
+                size_hint_y: None
+                height: self.texture_size[1]
+                
+            MDLabel:
+                id: urgency
+                text: "label text"
+                halign: "center"  # Align text within the label
+                size_hint_y: None
+                height: self.texture_size[1]
+            
+            MDLabel:
+                id: status
+                text: "label text"
+                halign: "center"  # Align text within the label
+                size_hint_y: None
+                height: self.texture_size[1]
+                
+            MDLabel:
+                id: dateCreated
+                text: "label text"
+                halign: "center"  # Align text within the label
+                size_hint_y: None
+                height: self.texture_size[1]
+            
+    BoxLayout:
+        orientation: 'vertical'
+        size_hint_y: None
+        height: "48dp"  # Fixed height for the button area
+
+        MDRaisedButton:
+            id: button
+            text: "Select Status"
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            on_release: app.menu_callback()
