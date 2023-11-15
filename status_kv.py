@@ -13,80 +13,6 @@ from kivymd.uix.button import MDRaisedButton
 from kivymd.uix.menu import MDDropdownMenu
 from kivy.properties import ObjectProperty
 
-# Kivy Builder String for the custom content layout
-KV = '''
-<DialogContent>:
-    orientation: "vertical"
-    size_hint_y: None
-    height: "400dp"
-
-    ScrollView:
-        size_hint_y: None
-        height: 400  # Adjust based on your dialog box size
-
-        GridLayout:
-            cols: 1
-            size_hint_y: None
-            size_hint_x: 1  # Take full width of the ScrollView
-            height: self.minimum_height
-            spacing: "30dp"
-            padding: [30, 60, 30, 30]  # Padding: [left, top, right, bottom]
-            pos_hint: {'center_x': 0.5, 'top': 50}  # Adjust pos_hint as needed
-
-            MDLabel:
-                id: title
-                text: "label text"
-                halign: "center"  # Align text within the label
-                size_hint_y: (1)
-                height: self.texture_size[1]
-                
-            MDLabel:
-                id: checklist
-                text: "label text"
-                halign: "center"  # Align text within the label
-                size_hint_y: None
-                height: self.texture_size[1]
-            
-            MDLabel:
-                id: image_path
-                text: "label text"
-                halign: "center"  # Align text within the label
-                size_hint_y: None
-                height: self.texture_size[1]
-                
-            MDLabel:
-                id: details
-                text: "label text"
-                halign: "center"  # Align text within the label
-                size_hint_y: None
-                height: self.texture_size[1]
-                
-            MDLabel:
-                id: urgency
-                text: "label text"
-                halign: "center"  # Align text within the label
-                size_hint_y: None
-                height: self.texture_size[1]
-            
-            MDLabel:
-                id: status
-                text: "label text"
-                halign: "center"  # Align text within the label
-                size_hint_y: None
-                height: self.texture_size[1]
-            
-    BoxLayout:
-        orientation: 'vertical'
-        size_hint_y: None
-        height: "48dp"  # Fixed height for the button area
-
-        MDRaisedButton:
-            id: button
-            text: "Select Status"
-            pos_hint: {"center_x": 0.5, "center_y": 0.5}
-            on_release: app.menu_callback()
-'''
-
 # Custom content class for the dialog
 class DialogContent(BoxLayout):
     pass
@@ -107,12 +33,12 @@ cursor = db.cursor()
 
 Window.size = (360, 600)
 
-class ListApp(MDApp):
+class StatusApp(MDApp):
     
     dropdown = ObjectProperty()
     
     def build(self):
-        Builder.load_string(KV)  # Load the Kivy Builder string
+        self.screen = Builder.load_file('status.kv')  # Load the Kivy Builder string
         self.screen = Screen()
         self.theme_cls.primary_palette = "Green"
         scroll = ScrollView()
@@ -139,7 +65,7 @@ class ListApp(MDApp):
         self.selected_report_id = row[0]  # Store the selected ReportId
 
         # Fetch data for the selected report
-        cursor.execute("SELECT Title, Checklist, image_Path, Details, Urgency, Status FROM report WHERE ReportId = %s", (self.selected_report_id,))
+        cursor.execute("SELECT Title, Checklist, image_Path, Details, Urgency, Status, dateCreated FROM report WHERE ReportId = %s", (self.selected_report_id,))
         data = cursor.fetchone()
 
         # Create dialog content
@@ -153,6 +79,11 @@ class ListApp(MDApp):
             self.dialog_content.ids.details.text = "Details: " + str(data[3])
             self.dialog_content.ids.urgency.text = "Urgency: " + str(data[4])
             self.dialog_content.ids.status.text = "Status: " + str(data[5])
+            if data[6] is None or data[6] == '':
+                self.dialog_content.ids.dateCreated.text = "Date: Unknown"
+            else:
+                self.dialog_content.ids.dateCreated.text = "Date: " + str(data[6])
+
 
         self.dialog = MDDialog(title="Update Status",
                                type="custom",
@@ -198,5 +129,5 @@ class ListApp(MDApp):
         db.commit()
         self.dialog.dismiss()
 
-listApp = ListApp()
-listApp.run()
+StatusApp = StatusApp()
+StatusApp.run()
