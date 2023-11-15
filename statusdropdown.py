@@ -17,12 +17,69 @@ from kivy.properties import ObjectProperty
 KV = '''
 <DialogContent>:
     orientation: "vertical"
-    spacing: "12dp"
     size_hint_y: None
-    height: "120dp"
+    height: "400dp"
 
+    ScrollView:
+        size_hint_y: None
+        height: 400  # Adjust based on your dialog box size
+
+        GridLayout:
+            cols: 1
+            size_hint_y: None
+            size_hint_x: 1  # Take full width of the ScrollView
+            height: self.minimum_height
+            spacing: "30dp"
+            padding: [30, 60, 30, 30]  # Padding: [left, top, right, bottom]
+            pos_hint: {'center_x': 0.5, 'top': 50}  # Adjust pos_hint as needed
+
+            MDLabel:
+                id: title
+                text: "label text"
+                halign: "center"  # Align text within the label
+                size_hint_y: (1)
+                height: self.texture_size[1]
+                
+            MDLabel:
+                id: checklist
+                text: "label text"
+                halign: "center"  # Align text within the label
+                size_hint_y: None
+                height: self.texture_size[1]
+            
+            MDLabel:
+                id: image_path
+                text: "label text"
+                halign: "center"  # Align text within the label
+                size_hint_y: None
+                height: self.texture_size[1]
+                
+            MDLabel:
+                id: details
+                text: "label text"
+                halign: "center"  # Align text within the label
+                size_hint_y: None
+                height: self.texture_size[1]
+                
+            MDLabel:
+                id: urgency
+                text: "label text"
+                halign: "center"  # Align text within the label
+                size_hint_y: None
+                height: self.texture_size[1]
+            
+            MDLabel:
+                id: status
+                text: "label text"
+                halign: "center"  # Align text within the label
+                size_hint_y: None
+                height: self.texture_size[1]
+            
     BoxLayout:
         orientation: 'vertical'
+        size_hint_y: None
+        height: "48dp"  # Fixed height for the button area
+
         MDRaisedButton:
             id: button
             text: "Select Status"
@@ -80,7 +137,23 @@ class ListApp(MDApp):
     # displaying the reports
     def open_dialog(self, row):
         self.selected_report_id = row[0]  # Store the selected ReportId
+
+        # Fetch data for the selected report
+        cursor.execute("SELECT Title, Checklist, image_Path, Details, Urgency, Status FROM report WHERE ReportId = %s", (self.selected_report_id,))
+        data = cursor.fetchone()
+
+        # Create dialog content
         self.dialog_content = DialogContent()
+
+        if data:
+            # Update label texts
+            self.dialog_content.ids.title.text = "Title: " + str(data[0])
+            self.dialog_content.ids.checklist.text = "Checklist: " + str(data[1])
+            self.dialog_content.ids.image_path.text = "Image Path: " + str(data[2])
+            self.dialog_content.ids.details.text = "Details: " + str(data[3])
+            self.dialog_content.ids.urgency.text = "Urgency: " + str(data[4])
+            self.dialog_content.ids.status.text = "Status: " + str(data[5])
+
         self.dialog = MDDialog(title="Update Status",
                                type="custom",
                                content_cls=self.dialog_content,  # Use custom content class
