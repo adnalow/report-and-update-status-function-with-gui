@@ -91,17 +91,17 @@ KV = '''
 class DialogContent(BoxLayout):
     pass
 
-host = "112.198.173.169"
-user = "root"
-password = "incidentreportingapp"
-database = "reportingApp"
+host = "sql12.freesqldatabase.com"
+user = "sql12662532"
+password = "viDRIhzYSq"
+database = "sql12662532"
 
 db = mysql.connector.connect(
-    host = "localhost",
-    user = "root",
-    password = "incidentreportingapp",
-    database = "reportingApp"
-)
+    host = "sql12.freesqldatabase.com",
+    user = "sql12662532",
+    password = "viDRIhzYSq",
+    database = "sql12662532",
+    )
 
 cursor = db.cursor()
 

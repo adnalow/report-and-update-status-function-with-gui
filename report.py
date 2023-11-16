@@ -8,16 +8,16 @@ import datetime
 
 
 
-host = "112.198.173.169"
-user = "root"
-password = "incidentreportingapp"
-database = "reportingApp"
+host = "sql12.freesqldatabase.com"
+user = "sql12662532"
+password = "viDRIhzYSq"
+database = "sql12662532"
 
 db = mysql.connector.connect(
-    host = "localhost",
-    user = "root",
-    password = "incidentreportingapp",
-    database = "reportingApp"
+    host = "sql12.freesqldatabase.com",
+    user = "sql12662532",
+    password = "viDRIhzYSq",
+    database = "sql12662532",
     )
 
 cursor = db.cursor()
@@ -140,10 +140,6 @@ class reportApp(MDApp):
         cursor.execute("INSERT INTO report (reportID, title, checklist, image_path, details, urgency, status, dateCreated) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
                     (reportID, self.title, self.checklist, self.imagePath, self.details, self.urgency, status, date_created))
 
-
-        
-        cursor.execute("INSERT INTO statusUpdate (reportID, title, status) VALUES (%s, %s, %s)",
-                (reportID, self.title, status))
 
         db.commit()
 reportApp().run()

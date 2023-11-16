@@ -5,16 +5,16 @@ import datetime
 from kivy.lang import Builder
 from kivymd.uix.menu import MDDropdownMenu
 
-host = "112.198.173.169"
-user = "root"
-password = "incidentreportingapp"
-database = "reportingApp"
+host = "sql12.freesqldatabase.com"
+user = "sql12662532"
+password = "viDRIhzYSq"
+database = "sql12662532"
 
 db = mysql.connector.connect(
-    host = "localhost",
-    user = "root",
-    password = "incidentreportingapp",
-    database = "reportingApp"
+    host = "sql12.freesqldatabase.com",
+    user = "sql12662532",
+    password = "viDRIhzYSq",
+    database = "sql12662532",
     )
 
 cursor = db.cursor()
@@ -54,7 +54,8 @@ class ReportApp(MDApp):
 
     def submit_data(self):
         # Use the database connection when needed to execute queries
-        reportID = random.randint(10, 999)
+        reportInitial = random.randint(10, 999)
+        reportID = str(reportInitial)
         title = self.root.ids.title.text
         incident_type = self.root.ids.choice.text
         image_path = self.root.ids.image_path.text
@@ -66,10 +67,6 @@ class ReportApp(MDApp):
         cursor.execute(
             "INSERT INTO report (reportID, title, checklist, image_path, details, urgency, status, dateCreated) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
             (reportID, title, incident_type, image_path, details, urgency, status, date_created)
-        )
-        cursor.execute(
-            "INSERT INTO statusUpdate (reportID, title, status) VALUES (%s, %s, %s)",
-            (reportID, title, status)
         )
         db.commit()
 
